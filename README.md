@@ -1,4 +1,1 @@
 # Crypto_Pulse
-
-
-rsinsinosngo
