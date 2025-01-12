@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="bg-slate-950 text-white">
+    <nav class=" flex flex-row justify-between sticky top-0 bg-slate-950">
+        <!-- navbar -->
+         
+        <img class="rounded-md w-30 h-12 mx-10 my-4 logo" src="./logo.png" alt="logo">
+       
+        <div class="flex flex-row justify-end">
+            <div><input class=" py-1 px-5 mx-3 my-5 rounded-full bg-gray-700" type="search" placeholder="Search"></div>
+            <button class="bg-slate-950 rounded-full hover:bg-gray-700 text-white font-bold py-2 px-3 mx-3 my-4">Bitcoin (BTC)</button>
+            <button class="bg-slate-950 rounded-full hover:bg-gray-700 text-white font-bold py-2 px-3 mx-3 my-4">Ethereum (ETH)</button>
+            <button class="bg-slate-950 rounded-full hover:bg-gray-700 text-white font-bold py-2 px-3 mx-3 my-4">Binance Coin (BNB)</button>
+            <button class="bg-slate-950 rounded-full hover:bg-gray-700 text-white font-bold py-2 px-3 mx-3 my-4">Tether (USDT)</button>
+            <button class="bg-slate-950 rounded-full hover:bg-gray-700 text-white font-bold py-2 px-2 mx-3 my-4">USD Coin (USDC)</button>
+            <div class="relative">
+                <button onclick="toggleDropdown()" class="bg-slate-950 rounded-full hover:bg-gray-700 text-white font-bold py-3 px-3 mx-3 my-4">
+                    More
+                </button>
+                <!-- Dropdown menu -->
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl">
+                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Cardano (ADA)</a>
+                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Solana (SOL)</a>
+                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">XRP (XRP)</a>
+                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Dogecoin (DOGE)</a>
+                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Polygon (MATIC)</a>
+                </div>
+            </div>
+            <!-- Login and Sign up -->
+            <div id="Login">
+                    <button class="bg-white rounded-2xl hover:bg-gray-700 shadow-md text-black font-bold py-3 px-2 mx-2 my-4">Login</button>
+            </div>
+            <div id="Sign up">
+                <button class="bg-green-600 rounded-2xl hover:bg-gray-700 shadow-md text-white font-bold py-3 px-2 mx-3 my-4">Sign up</button>
+            </div>   
+        </div>
+    </nav>
+
+
+    <div>
+        <!-- Coin name and price-->
+         <!-- <div class="flex flex-col justify-start items-start"> -->
+            <div class="flex flex-row">
+                <div class="p-4 bg-slate-950">
+                    <img class="rounded-full w-13 h-12 mx-5 my-20 px-1 py-" src="./dogecoin.jpeg" alt="DogeCoin image">
+                </div>
+                <div class="p-4 bg-slate-950">
+                    <button id="name" class=" bg-slate-950 hover:bg-gray-700 text-5xl font-serif rounded-md mx-4 my-14 px-5 py-7">DogeCoin</button>
+                </div>
+                <div class="p-4 bg-slate-950 ">
+                    <button id="price" class=" bg-slate-950 hover:bg-gray-700 font-bold text-2xl rounded-md mx-10 my-20 px-10 py-5">$0.3399</button>
+                </div>
+        
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Graph -->
+    <div class="h-64 w-128 mx-10">
+        <img src="./dogegraph.jpg" alt="DogeCoin Graph">
+    </div>
+    
+<div>
+
+        <!-- technicals -->
+     </div>
+        <script>
+            function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('hidden');
+        }
+    
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('button')) {
+                const dropdowns = document.getElementsByClassName('absolute');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (!openDropdown.classList.contains('hidden')) {
+                        openDropdown.classList.add('hidden');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
