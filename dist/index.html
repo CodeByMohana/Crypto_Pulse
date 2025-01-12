@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
+    <style>
+        /* Add custom background image through Tailwind's @layer directive */
+        @layer utilities {
+          .bg-local-image {
+            background-image: url('image url here');
+          }
+        }
+      </style>
 </head>
-<body class="bg-slate-950 text-white">
+<body class="bg-slate-950 text-white bg-local-image bg-cover bg-center h-screen">
     <nav class=" flex flex-row justify-between sticky top-0 bg-slate-950">
         <!-- navbar -->
          
