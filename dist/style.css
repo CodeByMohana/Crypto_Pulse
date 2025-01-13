@@ -680,6 +680,10 @@ video {
   width: 16rem;
 }
 
+.flex-none {
+  flex: none;
+}
+
 .flex-shrink-0 {
   flex-shrink: 0;
 }
