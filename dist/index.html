@@ -62,3 +62,39 @@
 
         </div>
     </nav>
+
+
+
+
+
+    <div>
+        <div>
+            <h1>CryptoPulse</h1>
+            The best Crypto Trading Platform.
+        </div>
+    </div>
+
+
+
+      <script>
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('hidden');
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function (event) {
+            if (!event.target.matches('button')) {
+                const dropdowns = document.getElementsByClassName('absolute');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (!openDropdown.classList.contains('hidden')) {
+                        openDropdown.classList.add('hidden');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
