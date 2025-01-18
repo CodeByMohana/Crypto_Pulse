@@ -7,7 +7,6 @@
     <title>CryptoPulse</title>
     <link rel="stylesheet" href="./style.css">
     <style>
-        
         @layer utilities {
             .bg-local-image {
                 background-image: url('image url here');
@@ -17,24 +16,20 @@
 </head>
 
 <body class="bg-gray-900 text-white bg-local-image bg-cover bg-center h-screen">
-    <nav class=" flex flex-row justify-between items-center sticky top-0 bg-gray-900">
-        <!-- navbar -->
-
+    <nav class="flex flex-row justify-between items-center sticky top-0 bg-gray-900">
         <div class="flex-shrink-0">
-            <img class="rounded-md w-48 h-32 mx-5 my-0 logo" 
-                src="./logo2.png" alt="logo">
+            <img class="rounded-md w-48 h-32 mx-5 my-0 logo" src="./logo2.png" alt="logo">
         </div>
-        
+
         <div class="flex flex-row justify-center">
-            <button class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-2 my-4">Bitcoin
+            <button onclick="setCoin('bitcoin')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-2 my-4">Bitcoin
                 (BTC)</button>
-            <button
-                class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Ethereum
+            <button onclick="setCoin('ethereum')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Ethereum
                 (ETH)</button>
-                 
-            <button class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Tether
+
+            <button onclick="setCoin('tether')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Tether
                 (USDT)</button>
-            <button class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-2 mx-3 my-4">USD
+            <button onclick="setCoin('usdc')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-2 mx-3 my-4">USD
                 Coin (USDC)</button>
             <div class="relative">
                 <button onclick="toggleDropdown()"
@@ -43,15 +38,15 @@
                 </button>
                 <!-- Dropdown menu -->
                 <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl">
-                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Cardano (ADA)</a>
-                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Solana (SOL)</a>
-                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">XRP (XRP)</a>
-                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Dogecoin (DOGE)</a>
-                    <a href="#" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Polygon (MATIC)</a>
+                    <a href="#" onclick="setCoin('cardano')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Cardano (ADA)</a>
+                    <a href="#" onclick="setCoin('solana')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Solana (SOL)</a>
+                    <a href="#" onclick="setCoin('xrp')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">XRP (XRP)</a>
+                    <a href="#" onclick="setCoin('dogecoin')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Dogecoin (DOGE)</a>
+                    <a href="#" onclick="setCoin('polygon')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Polygon (MATIC)</a>
                 </div>
             </div>
             <div class="flex-grow flex justify-center">
-                <input class="py-1 px-5 mx-3 my-5 rounded-full w-80 text-blue-600" type="search" placeholder="Search">
+                <input id="searchInput" class="py-1 px-5 mx-3 my-5 rounded-full w-80 text-blue-600" type="search" placeholder="Search">
             </div>
             <!-- Login and Sign up -->
             <div id="Login">
@@ -59,70 +54,54 @@
                     class="bg-white rounded-2xl hover:bg-gray-700 shadow-md text-black font-bold py-3 px-2 mx-2 my-4"
                     style="width:130px; margin-right:40px">Login</button>
             </div>
-
         </div>
     </nav>
+
     <div>
-        <!-- Coin name and price-->
-        <!-- <div class="flex flex-col justify-start items-start"> -->
         <div class="flex flex-row">
-
             <div class="p-4 bg-gray-900">
-                <div class=" bg-gray-900 text-5xl font-serif rounded-md mx-4 my-6 px-5 ">DogeCoin</div>
+                <div id="coinName" class="bg-gray-900 text-5xl font-serif rounded-md mx-4 my-6 px-5">DogeCoin</div>
             </div>
-            <div class="p-4 bg-gray-900 ">
-                <div class=" bg-gray-900  font-bold text-2xl rounded-md mx-10 my-2 px-10 py-5">$0.3399</div>
+            <div class="p-4 bg-gray-900">
+                <div id="coinPrice" class="bg-gray-900 font-bold text-2xl rounded-md mx-10 my-2 px-10 py-5">$0.3399</div>
             </div>
-
         </div>
-
     </div>
-
-    </div>
-
 
     <div class="flex flex-row justify-around">
-        <!-- Coin technicals -->
-        <div class=" px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
+        <div id="allDayHigh" class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
             All Day high
             <br>
             <p>$2.333</p>
         </div>
 
-        <div class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
+        <div id="high24hrs" class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
             High 24Hrs
             <br>
             <p>$2.556</p>
         </div>
 
-
-        <div class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
+        <div id="positiveSentiment" class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
             Positive Sentiments
             <br>
             <p>69.69%</p>
         </div>
 
-
-        <div class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
+        <div id="low24hrs" class="px-12 py-2 mx-0 my-5 rounded-md text-center font-semibold bg-gray-700">
             Low 24Hrs
             <br>
             <p class="text-red-600">$2.011</p>
         </div>
     </div>
 
-
-
-
-    <!-- Graph -->
     <div class="h-64 w-128 mx-10">
         <img src="./dogegraph.jpg" alt="DogeCoin Graph">
     </div>
 
-    <div>
-
-        <!-- technicals -->
-    </div>
     <script>
+        let currentCoin = 'dogecoin'; // Default coin on load
+
+        // Function to toggle the dropdown menu
         function toggleDropdown() {
             const dropdownMenu = document.getElementById('dropdownMenu');
             dropdownMenu.classList.toggle('hidden');
@@ -140,7 +119,41 @@
                 }
             }
         }
-    </script>
+
+        // Function to set the selected coin and update the data
+        function setCoin(coin) {
+            currentCoin = coin;
+            fetchCryptoData();
+        }
+
+        // Function to fetch data from the server
+        async function fetchCryptoData() {
+        try {
+            const response = await fetch(`http://localhost:3000/fetch-data?coin=${currentCoin}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+
+            const data = await response.json();
+
+            // Update the DOM with the fetched data
+            if (data && data.name && data.market_data) {
+                document.getElementById('coinName').textContent = data.name;
+                document.getElementById('coinPrice').textContent = `$${data.market_data.current_price.usd.toFixed(6)}`;
+                document.getElementById('allDayHigh').querySelector('p').textContent = `$${data.market_data.high_24h.usd.toFixed(3)}`;
+                document.getElementById('high24hrs').querySelector('p').textContent = `$${data.market_data.high_24h.usd.toFixed(3)}`;
+                document.getElementById('positiveSentiment').querySelector('p').textContent = `${data.sentiments.positive.toFixed(3)}%`;
+                document.getElementById('low24hrs').querySelector('p').textContent = `$${data.market_data.low_24h.usd.toFixed(3)}`;
+            } else {
+                console.error('Invalid data structure:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching crypto data:', error);
+        }
+    }
+
+    window.onload = fetchCryptoData; // Initial call on page load
+</script>
 </body>
 
 </html>
