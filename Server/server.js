@@ -3,19 +3,18 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 const path = require('path');
 const cors = require('cors');
-const memoryCache = require('memory-cache');  // Add this for caching
+const memoryCache = require('memory-cache');  // Added this for caching
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
-const CACHE_DURATION = 60000; // Cache duration: 1 minute
+const CACHE_DURATION = 60000; // Cache duration is 1 minute
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// Serve your HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
