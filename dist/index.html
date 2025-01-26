@@ -58,20 +58,24 @@
     <div class="loading-overlay" id="loadingOverlay"></div>
 
     <nav class="flex flex-row justify-between items-center sticky top-0 bg-gray-900">
-       
+
         <div class="flex-shrink-0">
             <img class="rounded-md w-48 h-32 mx-5 my-0 logo" src="./logo2.png" alt="logo">
         </div>
 
         <div class="flex flex-row justify-center">
-            <button onclick="setCoin('bitcoin')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-2 my-4">Bitcoin
+            <button onclick="setCoin('bitcoin')"
+                class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-2 my-4">Bitcoin
                 (BTC)</button>
-            <button onclick="setCoin('ethereum')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Ethereum
+            <button onclick="setCoin('ethereum')"
+                class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Ethereum
                 (ETH)</button>
 
-            <button onclick="setCoin('tether')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Tether
+            <button onclick="setCoin('tether')"
+                class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-3 mx-3 my-4">Tether
                 (USDT)</button>
-            <button onclick="setCoin('usd-coin')" class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-2 mx-3 my-4">USD
+            <button onclick="setCoin('usd-coin')"
+                class="bg-gray-900 rounded-full hover:text-blue-500 text-white font-bold py-2 px-2 mx-3 my-4">USD
                 Coin (USDC)</button>
             <div class="relative">
                 <button onclick="toggleDropdown()"
@@ -80,15 +84,21 @@
                 </button>
                 <!-- Dropdown menu -->
                 <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl">
-                    <a href="#" onclick="setCoin('cardano')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Cardano (ADA)</a>
-                    <a href="#" onclick="setCoin('solana')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Solana (SOL)</a>
-                    <a href="#" onclick="setCoin('ripple')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">XRP (XRP)</a>
-                    <a href="#" onclick="setCoin('dogecoin')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Dogecoin (DOGE)</a>
-                    <a href="#" onclick="setCoin('matic-network')" class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Polygon (MATIC)</a>
+                    <a href="#" onclick="setCoin('cardano')"
+                        class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Cardano (ADA)</a>
+                    <a href="#" onclick="setCoin('solana')"
+                        class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Solana (SOL)</a>
+                    <a href="#" onclick="setCoin('ripple')"
+                        class="block px-4 py-2 text-white font-bold hover:bg-gray-700">XRP (XRP)</a>
+                    <a href="#" onclick="setCoin('dogecoin')"
+                        class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Dogecoin (DOGE)</a>
+                    <a href="#" onclick="setCoin('matic-network')"
+                        class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Polygon (MATIC)</a>
                 </div>
             </div>
             <div class="flex-grow flex justify-center">
-                <input id="searchInput" class="py-1 px-5 mx-3 my-5 rounded-full w-80 text-blue-600" type="search" placeholder="Search">
+                <input id="searchInput" class="py-1 px-5 mx-3 my-5 rounded-full w-80 text-blue-600" type="search"
+                    placeholder="Search">
             </div>
             <!-- Login and Sign up -->
             <div id="Login">
@@ -136,6 +146,18 @@
         </div>
     </div>
 
+    <div id="candlestickChart" style="width: 100%; height: 500px; margin-top: 20px;"></div>
+    <div class="time-frame-selector">
+        <button class="bg-white rounded-2xl hover:bg-gray-700 shadow-md text-black font-bold py-3 px-2 mx-2 my-4"
+            style="margin-left:2.5%" changeTimeFrame('max')">All Time</button>
+        <button class="bg-white rounded-2xl hover:bg-gray-700 shadow-md text-black font-bold py-3 px-2 mx-2 my-4"
+            onclick="changeTimeFrame('365')">1 Year</button>
+        <button class="bg-white rounded-2xl hover:bg-gray-700 shadow-md text-black font-bold py-3 px-2 mx-2 my-4"
+            onclick="changeTimeFrame('90')">3 Months</button>
+        <button class="bg-white rounded-2xl hover:bg-gray-700 shadow-md text-black font-bold py-3 px-2 mx-2 my-4"
+            onclick="changeTimeFrame('30')">1 Month</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="app.js"></script>
 </body>
 
