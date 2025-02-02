@@ -101,6 +101,41 @@ app.get('/fetch-historical-data', async (req, res) => {
   }
 });
 
+
+app.get('/fetch-data', async (req, res) => {
+  const coin = req.query.coin || 'dogecoin';
+  const minMarketCap = parseFloat(req.query.minMarketCap) || 0;
+  const maxMarketCap = parseFloat(req.query.maxMarketCap) || Infinity;
+  const minPrice = parseFloat(req.query.minPrice) || 0;
+  const maxPrice = parseFloat(req.query.maxPrice) || Infinity;
+
+  try {
+      // Check cache first
+      let cachedData = coinDataCache.get(coin);
+      if (cachedData) {
+          console.log('Serving data from cache...');
+      } else {
+          console.log('Fetching new data...');
+          const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}`);
+          cachedData = response.data;
+          coinDataCache.put(coin, cachedData, CACHE_DURATION);
+      }
+
+      const marketCap = cachedData.market_data.market_cap.usd / 1e6; // Convert to million dollars
+      const price = cachedData.market_data.current_price.usd;
+
+      // Apply filtering
+      if (marketCap >= minMarketCap && marketCap <= maxMarketCap && price >= minPrice && price <= maxPrice) {
+          res.json(cachedData);
+      } else {
+          res.status(404).json({ message: "No data matches the selected filters." });
+      }
+  } catch (error) {
+      console.error('Error fetching crypto data:', error);
+      res.status(500).json({ message: "Error fetching data" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
