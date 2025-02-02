@@ -269,3 +269,47 @@ window.onload = () => {
   fetchCryptoData();
   fetchCandlestickData("360");
 };
+
+
+function applyFilters() {
+  const minMarketCap = document.getElementById("minMarketCap").value || 0;
+  const maxMarketCap = document.getElementById("maxMarketCap").value || Infinity;
+  const minPrice = document.getElementById("minPrice").value || 0;
+  const maxPrice = document.getElementById("maxPrice").value || Infinity;
+
+  fetchCryptoData(minMarketCap, maxMarketCap, minPrice, maxPrice);
+}
+
+// Modify fetchCryptoData to accept filter parameters
+async function fetchCryptoData(minMarketCap = 0, maxMarketCap = Infinity, minPrice = 0, maxPrice = Infinity) {
+  showLoader();
+  try {
+      const response = await fetch(
+          `http://localhost:3000/fetch-data?coin=${currentCoin}&minMarketCap=${minMarketCap}&maxMarketCap=${maxMarketCap}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch data");
+
+      const data = await response.json();
+
+      if (data?.name && data?.market_data) {
+          const marketCap = data.market_data.market_cap.usd / 1e6; // Convert to million dollars
+          const price = data.market_data.current_price.usd;
+
+          if (marketCap >= minMarketCap && marketCap <= maxMarketCap && price >= minPrice && price <= maxPrice) {
+              document.getElementById("coinName").textContent = data.name;
+              document.getElementById("coinPrice").textContent = `$${price.toFixed(6)}`;
+              document.getElementById("allDayHigh").querySelector("p").textContent = `$${data.market_data.high_24h.usd.toFixed(3)}`;
+              document.getElementById("high24hrs").querySelector("p").textContent = `$${data.market_data.high_24h.usd.toFixed(3)}`;
+              document.getElementById("positiveSentiment").querySelector("p").textContent = `${data.sentiments.positive.toFixed(3)}%`;
+              document.getElementById("low24hrs").querySelector("p").textContent = `$${data.market_data.low_24h.usd.toFixed(3)}`;
+          } else {
+              alert("No results found for the selected filters.");
+          }
+      }
+  } catch (error) {
+      console.error("Error fetching crypto data:", error);
+  } finally {
+      hideLoader();
+  }
+}
