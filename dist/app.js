@@ -1,5 +1,6 @@
 let currentCoin = "dogecoin"; // Default coin
 let chartInstance = null; // To manage chart instance
+let cachedCoinList = null; // Cache for coin list
 
 // Function to toggle the dropdown menu
 function toggleDropdown() {
@@ -23,6 +24,9 @@ function setCoin(coin) {
   currentCoin = coin;
   fetchCryptoData();
   fetchCandlestickData();
+  document.getElementById("searchInput").value = "";
+  document.getElementById("searchDropdown").style.display = "none";
+  document.getElementById("moreDropdownMenu").style.display = "none";
 }
 
 // Function to fetch real-time crypto data
@@ -118,6 +122,7 @@ async function fetchCandlestickData(timeFrame = "30") {
     hideLoader();
   }
 }
+
 // Function to render candlestick data
 function renderCandlestickChart(data) {
   if (chartInstance) {
@@ -180,6 +185,12 @@ function renderCandlestickChart(data) {
           upward: "#00b746",
           downward: "#ef403c",
         },
+        hover: {
+          colors: {
+            upward: "#00ff88",
+            downward: "#ff5555",
+          },
+        },
         wick: {
           useFillColor: true,
         },
@@ -204,67 +215,126 @@ function renderCandlestickChart(data) {
           month: "short",
           day: "numeric",
         });
-
+    
+        // Calculate percentage change
+        const change = ((close - open) / open) * 100;
+        const isPositive = change >= 0;
+        const changeColor = isPositive ? "#00b746" : "#ef403c";
+        const changeText = `${change.toFixed(2)}%`;
+    
         return `
           <div class="apexcharts-tooltip-candlestick">
             <div class="tooltip-header">${date}</div>
             <div class="tooltip-body">
-              <div>Open: <span>$${open.toFixed(6)}</span></div>
-              <div>High: <span>$${high.toFixed(6)}</span></div>
-              <div>Low: <span>$${low.toFixed(6)}</span></div>
-              <div>Close: <span>$${close.toFixed(6)}</span></div>
+              <div>Open: <span class="value">$${open.toFixed(6)}</span></div>
+              <div>High: <span class="value">$${high.toFixed(6)}</span></div>
+              <div>Low: <span class="value">$${low.toFixed(6)}</span></div>
+              <div>Close: <span class="value">$${close.toFixed(6)}</span></div>
+              <div>Change: <span style="color: ${changeColor}">${changeText}</span></div>
             </div>
           </div>
         `;
       },
     },
+    
   };
 
-  chartInstance = new ApexCharts(
-    document.querySelector("#candlestickChart"),
-    options
-  );
+
+
+  chartInstance = new ApexCharts(document.querySelector("#candlestickChart"), options);
   chartInstance.render();
 }
-
-// Add custom tooltip styles
-const style = document.createElement("style");
-style.textContent = `
-  .apexcharts-tooltip-candlestick {
-    background: #2d2d2d !important;
-    border: 1px solid #444444 !important;
-    border-radius: 8px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
-    padding: 12px !important;
-    color: #ffffff !important;
-    font-family: 'Arial', sans-serif !important;
-  }
-  .tooltip-header {
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #00b746;
-    font-size: 14px;
-  }
-  .tooltip-body div {
-    margin: 4px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-  }
-  .tooltip-body span {
-    color: #ffffff;
-    margin-left: 12px;
-    font-weight: 600;
-  }
-`;
-document.head.appendChild(style);
 
 function changeTimeFrame(timeFrame) {
   fetchCandlestickData(timeFrame);
 }
 
-// Initialize on load
+// Search functionality
+async function handleSearch() {
+  const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+  const searchDropdown = document.getElementById("searchDropdown");
+
+  if (searchQuery.length > 2) {
+    try {
+      if (!cachedCoinList) {
+        showLoader();
+        const response = await fetch("https://api.coingecko.com/api/v3/coins/list");
+        if (!response.ok) {
+          throw new Error("Failed to fetch coins");
+        }
+        cachedCoinList = await response.json();
+      }
+
+      const filteredCoins = cachedCoinList
+        .filter(
+          (coin) =>
+            coin.name.toLowerCase().includes(searchQuery) ||
+            coin.symbol.toLowerCase().includes(searchQuery)
+        )
+        .slice(0, 10);
+
+      displayDropdown(filteredCoins);
+    } catch (error) {
+      console.error("Error in search:", error);
+      cachedCoinList = null;
+    } finally {
+      hideLoader();
+    }
+  } else {
+    searchDropdown.style.display = "none";
+  }
+}
+
+function displayDropdown(filteredCoins) {
+  const searchDropdown = document.getElementById("searchDropdown");
+  searchDropdown.innerHTML = "";
+
+  if (filteredCoins.length === 0) {
+    searchDropdown.style.display = "none";
+    return;
+  }
+
+  filteredCoins.forEach((coin) => {
+    const coinElement = document.createElement("a");
+    coinElement.href = "#";
+    coinElement.textContent = `${coin.name} (${coin.symbol.toUpperCase()})`;
+    coinElement.onclick = (e) => {
+      e.preventDefault();
+      setCoin(coin.id);
+      searchDropdown.style.display = "none";
+      document.getElementById("searchInput").value = "";
+    };
+    searchDropdown.appendChild(coinElement);
+  });
+
+  searchDropdown.style.display = "block";
+}
+
+document.getElementById("searchInput").addEventListener("focus", async () => {
+  if (!cachedCoinList) {
+    try {
+      showLoader();
+      const response = await fetch("https://api.coingecko.com/api/v3/coins/list");
+      if (response.ok) {
+        cachedCoinList = await response.json();
+      }
+    } catch (error) {
+      console.error("Error pre-fetching coin list:", error);
+    } finally {
+      hideLoader();
+    }
+  }
+});
+
+document.addEventListener("click", function (event) {
+  const searchContainer = document.querySelector(".search-container");
+  const searchDropdown = document.getElementById("searchDropdown");
+
+  if (!searchContainer.contains(event.target)) {
+    searchDropdown.style.display = "none";
+  }
+});
+
 window.onload = () => {
   fetchCryptoData();
   fetchCandlestickData("360");

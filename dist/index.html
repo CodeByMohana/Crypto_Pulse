@@ -50,6 +50,128 @@
             z-index: 999;
             display: none;
         }
+
+        .search-container {
+            position: relative;
+            width: 320px;
+            margin: 0 20px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            outline: none;
+            margin: 8px 0;
+        }
+
+        #searchDropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #2D3748;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            margin-top: 4px;
+            border: 1px solid #4A5568;
+        }
+
+        #searchDropdown a {
+            padding: 12px 16px;
+            color: white;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        #searchDropdown a:hover {
+            background-color: #4A5568;
+        }
+
+        /* Scrollbar styling */
+        #searchDropdown::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #searchDropdown::-webkit-scrollbar-track {
+            background: #2D3748;
+            border-radius: 0 8px 8px 0;
+        }
+
+        #searchDropdown::-webkit-scrollbar-thumb {
+            background: #4A5568;
+            border-radius: 4px;
+        }
+
+        #searchDropdown::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        /* More dropdown menu styling */
+        .more-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .more-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #2D3748;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid #4A5568;
+            margin-top: 4px;
+        }
+
+        .more-dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+
+        .more-dropdown-content a:hover {
+            background-color: #4A5568;
+        }
+
+        .apexcharts-tooltip-candlestick {
+            background: #2d2d2d;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .tooltip-header {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .tooltip-body div {
+            margin: 4px 0;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tooltip-body span.value {
+            color: #fff;
+            margin-left: 8px;
+        }
     </style>
 </head>
 
@@ -96,9 +218,10 @@
                         class="block px-4 py-2 text-white font-bold hover:bg-gray-700">Polygon (MATIC)</a>
                 </div>
             </div>
-            <div class="flex-grow flex justify-center">
-                <input id="searchInput" class="py-1 px-5 mx-3 my-5 rounded-full w-80 text-blue-600" type="search"
-                    placeholder="Search">
+            <div class="search-container">
+                <input id="searchInput" class="py-1 px-5 text-blue-600" type="search" placeholder="Search"
+                    onkeyup="handleSearch()">
+                <div id="searchDropdown"></div>
             </div>
             <!-- Login and Sign up -->
             <div id="Login">
