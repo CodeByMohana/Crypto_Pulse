@@ -14,7 +14,7 @@ const CACHE_DURATION = 60000; // Cache duration is 1 minute
 
 app.use(
   cors({
-    origin: "https://crypto-pulse-psi.vercel.app/",
+    origin: "https://crypto-pulse-psi.vercel.app",
   })
 );
 app.use(express.static(path.join(__dirname, "../dist")));
