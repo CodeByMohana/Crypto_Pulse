@@ -71,7 +71,7 @@ async function fetchCandlestickData(timeFrame = "30") {
   showLoader();
   try {
     const response = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${currentCoin}/market_chart?vs_currency=usd&days=${timeFrame}`
+      `https://crypto-pulse-rgqg.onrender.com/proxy/candlestick?coin=${currentCoin}&days=${timeFrame}`
     );
     if (!response.ok) throw new Error("Failed to fetch candlestick data");
 
